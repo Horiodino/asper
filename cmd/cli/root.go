@@ -6,15 +6,55 @@ import (
 
 	"github.com/spf13/cobra"
 )
+var (
+    name string
+    vmos string
+    cpu string
+    memory string
+    disk string
+)
 
 var rootCmd = &cobra.Command{
-    Use:   "myapp",
-    Short: "My CLI App",
+    Use:   "asper",
+    Short: " ",
+    Long:  "A simple CLI app built with Cobra",
+}
+
+var createvm = &cobra.Command{
+    Use:   "createvm",
+    Short: " ",
     Long:  "A simple CLI app built with Cobra",
     Run: func(cmd *cobra.Command, args []string) {
-        fmt.Println("Hello from my CLI app!")
+
+        Cli := pkg.Cli{}
+
+        respone, err := Cli.IsLoggedIn()
+        if err != nil {
+            fmt.Println(err)
+            os.Exit(1)
+        }
+        if respone == false {
+            fmt.Println("Please login first")
+            os.Exit(1)
+        }
+
+        respone, err = Cli.checkrole()
+        if err != nil {
+            fmt.Println(err)
+            os.Exit(1)
+        }
+
+        if respone == false {
+            fmt.Println("You don't have permission to create vm")
+            os.Exit(1)
+        }
+
+        respone, err = Cli.createvm(name, vmos, cpu, memory, disk)
+
+
     },
 }
+
 
 func Execute() {
     if err := rootCmd.Execute(); err != nil {
@@ -22,6 +62,13 @@ func Execute() {
         os.Exit(1)
     }
 }
+
+func init () {
+    rootCmd.AddCommand(createvm)
+    requiredflags()
+}
+
+
 
 // cli overview 
 // all commands ---> login ---> login.go
