@@ -20,15 +20,19 @@ var rootCmd = &cobra.Command{
     Long:  "A simple CLI app built with Cobra",
 }
 
-var createvm = &cobra.Command{
+var createvms = &cobra.Command{
     Use:   "createvm",
     Short: " ",
     Long:  "A simple CLI app built with Cobra",
     Run: func(cmd *cobra.Command, args []string) {
 
-        Cli := pkg.Cli{}
 
-        respone, err := Cli.IsLoggedIn()
+        // TODO  check the context , in which context the cli is running is it local or remote 
+        // if its remote then we will skip the authentication from database and we will use the token from the config file
+        // and if remote then we will fetch from database and we will use the token from the config file
+        // it will be done in the config.go file
+
+        respone, err := isloggedIn()
         if err != nil {
             fmt.Println(err)
             os.Exit(1)
@@ -38,7 +42,7 @@ var createvm = &cobra.Command{
             os.Exit(1)
         }
 
-        respone, err = Cli.checkrole()
+        respone, err = checkrole()  // foe rbac
         if err != nil {
             fmt.Println(err)
             os.Exit(1)
@@ -49,9 +53,28 @@ var createvm = &cobra.Command{
             os.Exit(1)
         }
 
-        respone, err = Cli.createvm(name, vmos, cpu, memory, disk)
+
+        // USE INTERFACE WE WILL MAKE TWO CLIENTS ONE FOR LOCAL AND ONE FOR REMOTE
+        // in side all use interface and we will call the function from the interface
+        respone, err = createvm(name, vmos, cpu, memory, disk)
 
 
+    },
+}
+
+var context = &cobra.Command{
+    Use:   "context",
+    Short: " set the context of the cli local or remote",
+}
+
+var use = &cobra.Command{
+    Use : "set the context ",
+    Short : "set the context of the cli local or remote",
+    Run : func(cmd *cobra.Command, args []string) {
+        // TODO set the context of the cli local or remote
+        // if local then we will use the token from the config file
+        // if remote then we will fetch from database and we will use the token from the config file
+        // it will be done in the config.go file
     },
 }
 
@@ -63,8 +86,12 @@ func Execute() {
     }
 }
 
+// add subcommand for context
+
 func init () {
-    rootCmd.AddCommand(createvm)
+    rootCmd.AddCommand(createvms)
+    rootCmd.AddCommand(context)
+    context.AddCommand(use)
     requiredflags()
 }
 

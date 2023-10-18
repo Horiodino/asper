@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/horiodino/asper/cmd"
+	cmd "github.com/horiodino/asper/cmd/cli"
 )
 
 func main(){
