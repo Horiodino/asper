@@ -1,5 +1,7 @@
 package pkg
 
+import "fmt"
+
 type Context interface {
 	CreateVM(name string, vmos string, cpu int, memory int, disk int) ( error)
 	DeleteVM(name string) ( error)
@@ -18,5 +20,6 @@ type Cli struct {
 }
 
 func NewLocalClient() *Cli {
+	fmt.Println("Running NewLocalClient")
 	return &Cli{isadmin: true}
 }

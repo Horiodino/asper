@@ -1,8 +1,11 @@
 package pkg
 
+import "fmt"
+
 // this will cointail all implementataion like createvm, deletevm, etc all
 
 func (cli *Cli) CreateVM(name string, vmos string, cpu int, memory int, disk int) (error) {
+	fmt.Println("Running CreateVM")
 	return nil
 }
 
