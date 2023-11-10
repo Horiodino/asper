@@ -10,9 +10,6 @@ type Cli struct {
 	context pkg.Context
 }
 
-var (
-	FILEPATH string
-)
 
 func checkrole() (bool, error) {
 	fmt.Println("Running checkrole")

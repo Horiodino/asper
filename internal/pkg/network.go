@@ -59,3 +59,35 @@ type NetworkCreator interface {
 	CreateIPSecCertificateAuthorityOCSPResponderCertificateAuthorityOCSP() *network
 	CreateIPSecCertificateAuthorityOCSPResponderCertificateAuthorityOCSPRequest() *network
 }
+
+
+
+
+type FirewallRules interface {
+	AddFirewallRule() *modifyinstance
+	DeleteFirewallRule() *modifyinstance
+	GetFirewallRule() *modifyinstance
+	UpdateFirewallRule() *modifyinstance
+	ListFirewallRule() *modifyinstance
+}
+
+func (c *modifyinstance) AddFirewallRule() *modifyinstance {
+	fmt.Println("Running AddFirewallRule")
+	return c
+}
+func (c *modifyinstance) DeleteFirewallRule() *modifyinstance {
+	fmt.Println("Running DeleteFirewallRule")
+	return c
+}
+func (c *modifyinstance) GetFirewallRule() *modifyinstance {
+	fmt.Println("Running GetFirewallRule")
+	return c
+}
+func (c *modifyinstance) UpdateFirewallRule() *modifyinstance {
+	fmt.Println("Running UpdateFirewallRule")
+	return c
+}
+func (c *modifyinstance) ListFirewallRule() *modifyinstance {
+	fmt.Println("Running ListFirewallRule")
+	return c
+}

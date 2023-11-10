@@ -11,11 +11,6 @@ type Get interface {
 	InitializeGet() *get
 }
 
-func (g *get) InitializeGet() *get {
-	fmt.Println("Running InitializeGet")
-	return g
-}
-
 type GetObject interface {
 	InstanceState(instanceid asperstring) *get
 	InstanceIP(instanceid asperstring) *get
@@ -23,6 +18,11 @@ type GetObject interface {
 	InstanceNetworkInterface(instanceid asperstring) *get
 	InstanceDiskConfiguration(instanceid asperstring) *get
 	InstanceFirewallConfiguration(instanceid asperstring) *get
+}
+
+func (g *get) InitializeGet() *get {
+	fmt.Println("Running InitializeGet")
+	return g
 }
 
 func (c *get) InstanceState(instanceid asperstring) *get {

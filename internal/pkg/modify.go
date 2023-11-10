@@ -5,15 +5,11 @@ import (
 )
 
 type Modify interface {
-	InitilizeModifyClient(instanceid asperstring) *MmodifyInstance
+	InitilizeModifyClient(instanceid asperstring) *modifyclient
 }
 
-type MmodifyInstance struct {
-	UserID asperstring
-	IsUSer bool
-}
 
-func (c *MmodifyInstance) InitilizeModifyClient(instanceid asperstring) *MmodifyInstance {
+func (c *modifyclient) InitilizeModifyClient(instanceid asperstring) *modifyclient {
 	fmt.Println("Running InitilizeModifyClient")
 	return c
 }
@@ -24,15 +20,27 @@ type modifyclient struct {
 }
 
 type ModifyInstance interface {
-	ModifyVM(instanceid asperstring) *MmodifyInstance
+	ModifyVM(instanceid asperstring) *modifyinstance
 }
 
-func (c *modifyclient, p *MmodifyInstance) ModifyVM(instanceid asperstring) *modifyclient {
+func (c *modifyclient) ModifyVM(instanceid asperstring) *modifyinstance {
 	fmt.Println("Running ModifyVM")
-	return c
+
+	client := modifyinstance{}
+
+	return &client
 }
+
+type modifyinstance struct {
+	UserID     asperstring
+	IsUSer     bool	
+	InstanceID asperstring
+}
+
+
 
 type ModifyOperations interface {
+	ModifyVM(instanceid asperstring) *modifyinstance
 	MoveVM(instanceid asperstring) *modifyclient
 	ResizeVM(instanceid asperstring) *modifyclient
 	RebootVM(instanceid asperstring) *modifyclient
