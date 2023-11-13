@@ -14,6 +14,7 @@ package logger
 
 type Logger interface {
 	// string will convert any type to string
+
 	String([]string) (string, error)
 	Bool([]string) (bool, error)
 	Int([]string) (int, error)
@@ -23,6 +24,7 @@ type Logger interface {
 	JSONLines([]string) ([]interface{}, error)
 	Table(map[string]string, []map[string]string) error
 	Error(error) error
+	Invalid(err error)
 
 	/*
 		this will be used to log the error it will find what the error type if its a custom error then it will print the custom error else it will print the error
@@ -32,4 +34,48 @@ type Logger interface {
 }
 
 type LoggerImpl struct {
+}
+
+func NewLogger() *LoggerImpl {
+	return &LoggerImpl{}
+}
+
+func (l *LoggerImpl) String([]string) (string, error) {
+	panic("implement me")
+}
+
+func (l *LoggerImpl) Bool([]string) (bool, error) {
+	panic("implement me")
+}
+
+func (l *LoggerImpl) Int([]string) (int, error) {
+	panic("implement me")
+}
+
+func (l *LoggerImpl) Float([]string) (float64, error) {
+	panic("implement me")
+}
+
+func (l *LoggerImpl) Bytes([]string) ([]byte, error) {
+	panic("implement me")
+}
+
+func (l *LoggerImpl) JSON([]string) (interface{}, error) {
+	panic("implement me")
+}
+
+func (l *LoggerImpl) JSONLines([]string) ([]interface{}, error) {
+	panic("implement me")
+}
+
+func (l *LoggerImpl) Table(map[string]string, []map[string]string) error {
+	panic("implement me")
+}
+
+func (l *LoggerImpl) Error(error) error {
+	panic("implement me")
+}
+
+func (l *LoggerImpl) Invalid(err error) {
+	panic("implement me")
 }
