@@ -1,81 +1,97 @@
+// Package logger provides an interface and implementation for logging functionality.
 package logger
 
-/*
-	these are the interface for the logger
-	// it will be used to log the error and other information
-*/
+import (
+	"fmt"
+	"time"
+)
 
-/*
+const (
+	LevelDebug = "DEBUG"
+	LevelInfo  = "INFO"
+	LevelWarn  = "WARN"
+	LevelError = "ERROR"
+	LevelFatal = "FATAL"
+)
 
-	teh logger be called globally , so like we create interface it is asper , asper is the our project name
-	so we will create the interface as asper.String() , asper.Bool() .....
-
-*/
-
+// Logger defines methods that can be used for various logging operations.
 type Logger interface {
-	// string will convert any type to string
-
-	String([]string) (string, error)
-	Bool([]string) (bool, error)
-	Int([]string) (int, error)
-	Float([]string) (float64, error)
-	Bytes([]string) ([]byte, error)
-	JSON([]string) (interface{}, error)
-	JSONLines([]string) ([]interface{}, error)
-	Table(map[string]string, []map[string]string) error
-	Error(error) error
-	Invalid(err error)
-
-	/*
-		this will be used to log the error it will find what the error type if its a custom error then it will print the custom error else it will print the error
-		 or invalid err type
-	*/
-
+	String(key string) (string, error)
+	Bool(key string) (bool, error)
+	Int(key string) (int, error)
+	Float(key string) (float64, error)
+	Bytes(key string) ([]byte, error)
+	JSON(key string) (interface{}, error)
+	JSONLines(key string) ([]interface{}, error)
+	Table(header map[string]string, rows []map[string]string) error
+	LogError(err error) error
+	LogInvalid(err error)
+	LogInfo(message string)
 }
 
-type LoggerImpl struct {
-}
+// LoggerImpl is the concrete implementation of the Logger interface.
+type LoggerImpl struct{}
 
+// NewLogger returns a new instance of LoggerImpl.
 func NewLogger() *LoggerImpl {
 	return &LoggerImpl{}
 }
 
-func (l *LoggerImpl) String([]string) (string, error) {
+// String converts the value associated with the key to a string.
+func (l *LoggerImpl) String(key string) (string, error) {
+	return "", nil
+}
+
+// Bool converts the value associated with the key to a boolean.
+func (l *LoggerImpl) Bool(key string) (bool, error) {
 	panic("implement me")
 }
 
-func (l *LoggerImpl) Bool([]string) (bool, error) {
+// Int converts the value associated with the key to an integer.
+func (l *LoggerImpl) Int(key string) (int, error) {
 	panic("implement me")
 }
 
-func (l *LoggerImpl) Int([]string) (int, error) {
+// Float converts the value associated with the key to a float64.
+func (l *LoggerImpl) Float(key string) (float64, error) {
 	panic("implement me")
 }
 
-func (l *LoggerImpl) Float([]string) (float64, error) {
+// Bytes converts the value associated with the key to a byte slice.
+func (l *LoggerImpl) Bytes(key string) ([]byte, error) {
 	panic("implement me")
 }
 
-func (l *LoggerImpl) Bytes([]string) ([]byte, error) {
+// JSON parses the value associated with the key as a JSON object.
+func (l *LoggerImpl) JSON(key string) (interface{}, error) {
 	panic("implement me")
 }
 
-func (l *LoggerImpl) JSON([]string) (interface{}, error) {
+// JSONLines parses the value associated with the key as a list of JSON objects.
+func (l *LoggerImpl) JSONLines(key string) ([]interface{}, error) {
 	panic("implement me")
 }
 
-func (l *LoggerImpl) JSONLines([]string) ([]interface{}, error) {
+// Table logs tabular data using a header and rows.
+func (l *LoggerImpl) Table(header map[string]string, rows []map[string]string) error {
 	panic("implement me")
 }
 
-func (l *LoggerImpl) Table(map[string]string, []map[string]string) error {
+// LogError logs the given error.
+func (l *LoggerImpl) LogError(err error) error {
 	panic("implement me")
 }
 
-func (l *LoggerImpl) Error(error) error {
+// LogInvalid logs an invalid error type.
+func (l *LoggerImpl) LogInvalid(err error) {
 	panic("implement me")
 }
 
-func (l *LoggerImpl) Invalid(err error) {
-	panic("implement me")
+func (l *LoggerImpl) LogInfo(message string) {
+	currentTime := time.Now().Format("2006-01-02 15:04:05")
+
+	// Format the log message
+	formattedMessage := fmt.Sprintf("[%s] [%s] [%s]", currentTime, LevelInfo, message)
+	fmt.Println(formattedMessage)
+
 }

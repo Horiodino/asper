@@ -1,15 +1,21 @@
-package pkg
+package vm
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/horiodino/asper/internal/logger"
+)
+
+// TODO add use valid  argument for all methods
 
 type MetricsVM interface {
 	InitilizeMetriceClient() *metrice
 }
 
 type metrice struct {
-	UserID     asperstring
+	UserID     logger.Asperstring
 	IsUSer     bool
-	InstanceID asperstring
+	InstanceID logger.Asperstring
 }
 
 type GetMetrics interface {

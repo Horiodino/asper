@@ -4,7 +4,10 @@ import (
 	"fmt"
 
 	"github.com/horiodino/asper/internal/auth"
-	"github.com/horiodino/asper/internal/pkg"
+	"github.com/horiodino/asper/internal/configuration"
+
+	// "github.com/horiodino/asper/internal/pkg"
+	logger "github.com/horiodino/asper/internal/logger"
 )
 
 var authclient, _ = auth.InitializeAuth()
@@ -15,16 +18,18 @@ type Validator interface {
 	Login() (bool, error)
 	Logout() (bool, error)
 	IsLoggedIn() (bool, error)
-	InitilizeCreateClient() *pkg.Create
+	// InitilizeCreateClient() *pkg.Create
 }
 
 // CliValidator implements the Validator interface for CLI operations.
 type CliValidator struct {
-	context pkg.Asperstring
+	context logger.Asperstring
+	request Request
 }
 
 func (c *CliValidator) CheckRole() (bool, error) {
 
+	return true, nil
 }
 
 func (c *CliValidator) Login() (bool, error) {
@@ -32,42 +37,35 @@ func (c *CliValidator) Login() (bool, error) {
 	case "local":
 		switch c.context {
 		case "local":
-			val, err := authclient.Login()
-			if err != nil {
-				panic(err)
-			}
+			val := true
 			if val == false {
 				fmt.Println("NOOOOOOOOOOOOOOOOOOO")
 			}
-			fmt.Println("Running local checkrole------------------------------")
-			// check in .asper
+			logger := logger.NewLogger()
+			logger.LogInfo("Running local login")
+
+			return true, nil
 		case "cloud":
 			fmt.Println("Running cloud checkrole")
-			// check in database
 		default:
 			fmt.Println("Running default checkrole")
 		}
-		fmt.Println("Running checkrole")
 		return true, nil
-		// check in .asper
 	case "cloud":
 		fmt.Println("Running cloud login")
-		// check in database
 	default:
 		fmt.Println("Running default login")
 	}
-	fmt.Println("Running login")
-	return true, nil
+
+	return false, nil
 }
 
 func (c *CliValidator) Logout() (bool, error) {
 	switch c.context {
 	case "local":
 		fmt.Println("Running local logout")
-		// check in .asper
 	case "cloud":
 		fmt.Println("Running cloud logout")
-		// check in database
 	default:
 		fmt.Println("Running default logout")
 	}
@@ -79,10 +77,8 @@ func (c *CliValidator) IsLoggedIn() (bool, error) {
 	switch c.context {
 	case "local":
 		fmt.Println("Running local isloggedIn")
-		// check in .asper
 	case "cloud":
 		fmt.Println("Running cloud isloggedIn")
-		// check in database
 	default:
 		fmt.Println("Running default isloggedIn")
 	}
@@ -92,14 +88,31 @@ func (c *CliValidator) IsLoggedIn() (bool, error) {
 
 // InitializeClient initializes the client based on the context.
 func InitializeClient() (*CliValidator, error) {
-	fmt.Println("Running InitializeClient")
+
+	logs := logger.NewLogger()
+	logs.LogInfo("Running InitializeClient")
 
 	// Check for the context
 	value := getContext()
 
 	switch value {
 	case "local":
-		return &CliValidator{context: "local"}, nil
+		return &CliValidator{
+			context: "local",
+			request: Request{
+				Token:       "token",
+				RequestType: "managed",
+				Service:     "vm",
+				Configuration: &configuration.ALL{
+					InstanceConfigurationInput: configuration.InstanceConfigurationInput{
+						Name:   "testinstance",
+						OS:     "ubuntu",
+						Memory: 1097152,
+						VCPU:   3,
+					},
+				},
+			},
+		}, nil
 	case "remote":
 		// client.(*CliValidator).context = pkg.NewRemoteClient()
 	default:
