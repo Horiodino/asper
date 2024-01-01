@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/horiodino/asper/internal/configuration"
 	"github.com/horiodino/asper/internal/logger"
 	"github.com/libvirt/libvirt-go"
 )
@@ -17,24 +16,46 @@ type vm struct {
 }
 
 func InitializeFromConfig() *vm {
-
 	return &vm{}
 }
 
-// Create interface groups together methods for creating various components of a VM
-type Create interface {
-	CreateVM(ctx context.Context, input *configuration.InstanceConfigurationInput) (*configuration.InstanceConfigurationOutput, error)
-	DeleteVM(ctx context.Context)
+// Instance interface groups together methods for creating various components of a VM
+type Instance interface {
+	CreateVM(ctx context.Context, input *InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
+	DeleteVM(ctx context.Context, input *DescribeInstancesInput) (*DescribeInstancesOutput, error)
+	InstanceState(context.Context, *DescribeInstancesInput) *DescribeInstancesOutput
+	InstanceSSHKey(ctx context.Context, input *DescribeSSHKeyInput) *DescribeSSHKeyOutput
+	InstanceNetworkInterface(ctx context.Context, input *DescribeNetworkInterfaceInput) *DescribeNetworkInterfaceOutput
+	InstanceDiskConfiguration(ctx context.Context, input *DescribeDiskConfigurationInput) *DescribeDiskConfigurationOutput
+	InstanceFirewallConfiguration(ctx context.Context, input *DescribeFirewallConfigurationInput) *DescribeFirewallConfigurationOutput
+	ModifyVM(ctx context.Context, input *InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
+	MoveVM(ctx context.Context, input *InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
+	ResizeVM(ctx context.Context, input *InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
+	RebootVM(ctx context.Context, input *DescribeInstancesInput) (*DescribeInstancesOutput, error)
+	StopVM(ctx context.Context, input *DescribeInstancesInput) (*DescribeInstancesOutput, error)
+	StartVM(ctx context.Context, input *DescribeInstancesInput) (*DescribeInstancesOutput, error)
+	RebuildVM(ctx context.Context, input *InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
+	ReinstallVM(ctx context.Context, input *InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
+	ResetVM(ctx context.Context, input *DescribeInstancesInput) (*DescribeInstancesOutput, error)
+	CloneVM(ctx context.Context, input *InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
+	BackupVM(ctx context.Context, input *InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
+	RestoreVM(ctx context.Context, input *InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
+	ConvertVM(ctx context.Context, input *InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
+	DescribeInstances(ctx context.Context, input *DescribeInstancesInput) (*DescribeInstancesOutput, error)
+	DescribeSSHKey(ctx context.Context, input *DescribeSSHKeyInput) (*DescribeSSHKeyOutput, error)
+	DescribeNetworkInterface(ctx context.Context, input *DescribeNetworkInterfaceInput) (*DescribeNetworkInterfaceOutput, error)
+	DescribeDiskConfiguration(ctx context.Context, input *DescribeDiskConfigurationInput) (*DescribeDiskConfigurationOutput, error)
+	DescribeFirewallConfiguration(ctx context.Context, input *DescribeFirewallConfigurationInput) (*DescribeFirewallConfigurationOutput, error)
 }
 
-func (c *vm) CreateVM(ctx context.Context, input *configuration.InstanceConfigurationInput, operationType string) (*configuration.InstanceConfigurationOutput, error) {
+func (c *vm) CreateVM(ctx context.Context, input *InstanceConfigurationInput) (*InstanceConfigurationOutput, error) {
 
-	fmt.Println("working!!!!")
-	switch operationType {
-	case "managed":
-	case "custom":
-	default:
-	}
+	// fmt.Println("working!!!!")
+	// switch operationType {
+	// case "managed":
+	// case "custom":
+	// default:
+	// }
 
 	// Creation of VM
 	logger := logger.NewLogger()

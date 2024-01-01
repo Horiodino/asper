@@ -31,21 +31,34 @@ func main() {
 package main
 
 import (
-	"context"
+	// "context"
+	// "fmt"
+	// "github.com/horiodino/asper/internal/configuration"
+	// "github.com/horiodino/asper/internal/pkg/vm"
+	// "log"
+
 	"fmt"
-	"github.com/horiodino/asper/internal/configuration"
-	"github.com/horiodino/asper/internal/pkg/vm"
-	"log"
+	libvertgo "github.com/libvirt/libvirt-go"
 )
 
 func main() {
 	// Initialize vm
-	vmclient := vm.InitializeFromConfig()
-	responce, err := vmclient.CreateVM(context.TODO(), &configuration.InstanceConfigurationInput{}, "")
-	if err != nil {
-		log.Fatal(err)
-	}
+	// vmclient := vm.InitializeFromConfig()
+	// responce, err := vmclient.CreateVM(context.TODO(), &configuration.InstanceConfigurationInput{}, "")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	fmt.Println(responce)
+	// fmt.Println(responce)
+
+	conn, err := libvertgo.NewConnect("qemu:///system")
+	if err != nil {
+		fmt.Println("Error connecting to hypervisor:", err)
+		return
+	}
+	defer conn.Close()
+
+	netclient, err  := conn.NetworkDefineXML()
+
 
 }
