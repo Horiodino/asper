@@ -1,64 +1,26 @@
-/*
-
 package main
 
 import (
-	validate "github.com/horiodino/asper/internal/pkg/validation"
+	"context"
+	"log"
+
+	//	"github.com/horiodino/asper/internal/pkg/network"
+	"github.com/horiodino/asper/internal/pkg/vm"
 )
-
 func main() {
+	ctx:= context.Background()
+//	Nclient := network.NewNetworkClient()
+//	_, err := Nclient.CreateNetworkInterface(ctx,&network.NetworkInterfaceParams{
+//		Name: "testing-nic",
+//	})
+//	if err != nil {
+//		log.Fatal(err)
+//	}
 
-	// before calling the main execution provess we create a new pkg that will validate every
-	// request and validate the input and took security measures.
-
-	validate, err := validate.InitializeClient()
-	if err != nil {
-		panic(err)
+	Client := vm.InitializeFromConfig()
+	_, err := Client.CreateVM(ctx,&vm.InstanceConfigurationInput{})
+	if err!= nil{
+		log.Fatal(err)
 	}
-	validate.Login()
-	validate.Create("vm")
-
-	// asper := test.NewLocalClient()
-	// metricesclient := asper.MetricsVM.InitilizeMetriceClient()
-	// metricesclient.GetCPU()
-}
-
-
-
-
-*/
-
-package main
-
-import (
-	// "context"
-	// "fmt"
-	// "github.com/horiodino/asper/internal/configuration"
-	// "github.com/horiodino/asper/internal/pkg/vm"
-	// "log"
-
-	"fmt"
-	libvertgo "github.com/libvirt/libvirt-go"
-)
-
-func main() {
-	// Initialize vm
-	// vmclient := vm.InitializeFromConfig()
-	// responce, err := vmclient.CreateVM(context.TODO(), &configuration.InstanceConfigurationInput{}, "")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// fmt.Println(responce)
-
-	conn, err := libvertgo.NewConnect("qemu:///system")
-	if err != nil {
-		fmt.Println("Error connecting to hypervisor:", err)
-		return
-	}
-	defer conn.Close()
-
-	netclient, err  := conn.NetworkDefineXML()
-
 
 }

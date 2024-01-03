@@ -1,6 +1,12 @@
 package network
 
-import "context"
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/horiodino/asper/bkend/hypervisor/qemu"
+)
 
 // Network the newtwork package allocates networking resources required
 type Network interface {
@@ -8,23 +14,39 @@ type Network interface {
 	DeleteNetworkInterface(ctx context.Context, nicinput *DeleteNetworkInterfaceParams) (result DeleteNetworkInterfaceResult, err error)
 	AttachNetworkInterface(ctx context.Context, nicinput *AttachNetworkInterfaceParams) (result AttachNetworkInterfaceResult, err error)
 	DetachNetworkInterface(ctx context.Context, nicinput *DetachNetworkInterfaceParams) (result DetachNetworkInterfaceResult, err error)
-	CreateFirewall(ctx context.Context, config configuration.FirewallConfiguration) (*configuration.FirewallConfiguration, error)
-	
+	CreateFirewall(ctx context.Context, nicinput *NetworkInterfaceParams) (result InterfaceResult, err error)
 }
 
-// create new client to acess all network functions
+type network struct {
+	Token string `json:"token"`
+}
+
 func NewNetworkClient() Network {
 	return &network{}
 }
 
-// network implements Network
-type network struct {
-	Token string `json:"token"`
-	
+// CreateFirewall creates a firewall
+func (n *network) CreateFirewall(ctx context.Context, nicinput *NetworkInterfaceParams) (result InterfaceResult, err error) {
+	return result, err
 }
 
 // CreateNetworkInterface creates a new network interface
 func (n *network) CreateNetworkInterface(ctx context.Context, nicinput *NetworkInterfaceParams) (result InterfaceResult, err error) {
+
+	QEMU := qemu.InitializeQEMU()
+	xmlstring, err := QEMU.Validate("network")
+	nic, err := QEMU.Client.NetworkDefineXML(string(xmlstring))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	nic.Create()
+
+	fmt.Println(nic.GetName())
+	fmt.Println(nic.GetBridgeName())
+	fmt.Println(nic.IsActive())
+
+	ctx.Done()
 	return result, err
 }
 

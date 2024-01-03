@@ -5,8 +5,8 @@ import "github.com/horiodino/asper/internal/logger"
 // TODO add use valid  argument for all methods
 
 type ModifyOperations interface {
-	ModifyFirewall(instanceid logger.Asperstring) *modifyclient
-	ModifyNetwork(instanceid logger.Asperstring) *modifyclient
-	ModifyDisk(instanceid logger.Asperstring) *modifyclient
-	ModifySSH(instanceid logger.Asperstring) *modifyclient
+	ModifyFirewall(instanceid logger.Asperstring)
+	ModifyNetwork(instanceid logger.Asperstring)
+	ModifyDisk(instanceid logger.Asperstring)
+	ModifySSH(instanceid logger.Asperstring)
 }
