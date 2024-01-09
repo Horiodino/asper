@@ -4,24 +4,6 @@ import (
 	"github.com/horiodino/asper/internal/logger"
 )
 
-type RunInstanceInput struct {
-	Name              logger.Asperstring
-	OS                logger.Asperstring
-	SSHConfiguration  InputSSHConfiguration
-	NetworkInterface  InputNetworkInterface
-	DiskConfiguration InputDiskConfiguration
-}
-
-type InputSSHConfiguration struct {
-	Keyname logger.Asperstring
-}
-
-type InputNetworkInterface struct {
-}
-
-type InputDiskConfiguration struct {
-}
-
 type RunInstanceOutput struct {
 }
 
@@ -58,36 +40,108 @@ type InstanceConfigurationInput struct {
 	Memory            uint
 	VCPU              uint
 	Lock              bool
-	SSHConfiguration  InputSSHConfiguration
-	NetworkInterface  InputNetworkInterface
-	DiskConfiguration InputDiskConfiguration
+	SSHConfiguration  SSHConfigurationInput
+	NetworkInterface  NetworkInterfaceInput
+	DiskConfiguration DiskConfigurationInput
+}
+type SSHConfigurationInput struct {
+	Keyname logger.Asperstring
+}
+type NetworkInterfaceInput struct {
+	Name   logger.Asperstring
+	Bridge logger.Asperstring
+}
+type DiskConfigurationInput struct {
+	Name logger.Asperstring
+	Size uint
 }
 
 type InstanceConfigurationOutput struct {
 	ID                    logger.Asperstring
 	Name                  logger.Asperstring
 	OS                    logger.Asperstring
-	SSHConfiguration      InputSSHConfiguration
-	NetworkInterface      InputNetworkInterface
+	SSHConfiguration      SSHKeyOutput
+	NetworkInterface      NetworkInterfaceOutput
 	UserID                logger.Asperstring
-	FirewallConfiguration FirewallConfiguration
-	DiskConfiguration     InputDiskConfiguration
+	FirewallConfiguration FirewallConfigurationOutput
+	DiskConfiguration     DiskConfigurationOutput
+}
+
+type SSHKeyOutput struct {
+	Keyname logger.Asperstring
+}
+type NetworkInterfaceOutput struct {
+	Name   logger.Asperstring
+	Bridge logger.Asperstring
+	Status logger.Asperstring
+	// TODO ADD IP Mac and assigned security group
+}
+
+type FirewallConfigurationOutput struct {
+	ID         logger.Asperstring
+	Name       logger.Asperstring
+	Rules      []FirewallRuleOutput
+	AppliedFor []logger.Asperstring
+}
+
+type FirewallRuleOutput struct {
+	ID           logger.Asperstring
+	Name         logger.Asperstring
+	InboundRule  []InboundRuleOutput
+	OutboundRule []OutboundRuleOutput
+}
+
+type InboundRuleOutput struct {
+	IPRangeFrom logger.Asperstring
+	IPRangeTo   logger.Asperstring
+	Protocol    logger.Asperstring
+	Ports       []int
+}
+
+type OutboundRuleOutput struct {
+	IPRangeFrom logger.Asperstring
+	IPRangeTo   logger.Asperstring
+	Protocol    logger.Asperstring
+	Ports       []int
+}
+
+type DiskConfigurationOutput struct {
+	Name logger.Asperstring
+	Size uint
 }
 
 type DescribeInstancesInput struct {
-	InstanceID logger.Asperstring
+	Name   logger.Asperstring
+	Filter []DescribeInstanceFilter
+}
+
+type DescribeInstanceFilter struct {
+	State logger.Asperstring
 }
 
 type DescribeInstancesOutput struct {
-	InstanceConfigurationOutput InstanceConfigurationOutput
+	ResulteMetadata []ResultMetadata
+}
+
+type ResultMetadata struct {
+	ID       logger.Asperstring
+	Name     logger.Asperstring
+	OS       logger.Asperstring
+	SSHKey   logger.Asperstring
+	Network  logger.Asperstring
+	UserID   logger.Asperstring
+	Instance logger.Asperstring
 }
 
 type DescribeSSHKeyInput struct {
+	Name logger.Asperstring
+	// only any one field is valid
 	InstanceID logger.Asperstring
 }
 
 type DescribeSSHKeyOutput struct {
-	SSHConfiguration InputSSHConfiguration
+	Keyname logger.Asperstring
+	UsedBy  []logger.Asperstring
 }
 
 type DescribeNetworkInterfaceInput struct {
@@ -95,15 +149,19 @@ type DescribeNetworkInterfaceInput struct {
 }
 
 type DescribeNetworkInterfaceOutput struct {
-	NetworkInterface InputNetworkInterface
+	NetworkInterface NetworkInterfaceOutput
 }
 
+// TODO use slice
 type DescribeDiskConfigurationInput struct {
 	InstanceID logger.Asperstring
 }
 
 type DescribeDiskConfigurationOutput struct {
-	DiskConfiguration InputDiskConfiguration
+	Name       logger.Asperstring
+	Size       uint
+	Status     logger.Asperstring
+	InstanceID logger.Asperstring
 }
 
 type DescribeFirewallConfigurationInput struct {
@@ -112,18 +170,4 @@ type DescribeFirewallConfigurationInput struct {
 
 type DescribeFirewallConfigurationOutput struct {
 	FirewallConfiguration FirewallConfiguration
-}
-
-type ALL struct {
-	InstanceConfigurationInput  InstanceConfigurationInput
-	InstanceConfigurationOutput InstanceConfigurationOutput
-	InputDiskConfiguration      InputDiskConfiguration
-	InputNetworkInterface       InputNetworkInterface
-	InputSSHConfiguration       InputSSHConfiguration
-	RunInstanceInput            RunInstanceInput
-	RunInstanceOutput           RunInstanceOutput
-	FirewallConfiguration       FirewallConfiguration
-	FirewallRule                FirewallRule
-	InboundRule                 InboundRule
-	OutboundRule                OutboundRule
 }

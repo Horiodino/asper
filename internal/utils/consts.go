@@ -6,7 +6,7 @@ const (
 	FEDORA                     = "fedora"
 	PATH                       = "/var/lib/libvirt/images/"
 	HYPERVISOR                 = "qemu"
-	NETWORK                    = "net-nic"
+	NETWORK                    = "network"
 	NETWORKBRIDGE              = "bridge-adapter"
 	NETWORKDOMAIN              = "example.com"
 	NETWORKMAC                 = "52:54:00:00:00:00"
