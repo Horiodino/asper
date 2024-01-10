@@ -4,24 +4,30 @@ import (
 	"context"
 	"log"
 
-	"github.com/horiodino/asper/bkend/hypervisor/qemu"
 	"github.com/horiodino/asper/internal/pkg/vm"
 	// "github.com/horiodino/asper/internal/pkg/network"
 )
 
 func main() {
 	ctx := context.Background()
-	//	Nclient := network.NewNetworkClient()
-	//	_, err := Nclient.CreateNetworkInterface(ctx,&qemu.NetworkInterfaceParams{
-	//		Name: "testing-nic",
-	//	})
-	//	if err != nil {
-	//		log.Fatal(err)
-	//	}
-
 	Client := vm.InitializeFromConfig()
-	_, err := Client.CreateVM(ctx, &qemu.InstanceConfigurationInput{
-		Name: "demo-asper-vm",
+	_, err := Client.CreateVM(ctx, vm.InstanceConfigurationInput{
+		Name:   "demo-asper-vm",
+		OS:     "ubuntu",
+		Memory: 1024,
+		VCPU:   1,
+		Lock:   false,
+		SSHConfiguration: vm.SSHConfigurationInput{
+			Keyname: "asper",
+		},
+		NetworkInterface: vm.NetworkInterfaceInput{
+			Name:   "asper",
+			Bridge: "br0",
+		},
+		DiskConfiguration: vm.DiskConfigurationInput{
+			Name: "asper",
+			Size: 10,
+		},
 	})
 	if err != nil {
 		log.Fatal(err)

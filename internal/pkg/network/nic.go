@@ -16,6 +16,7 @@ type Network interface {
 	DetachNetworkInterface(ctx context.Context, nicinput DetachNetworkInterfaceParams) (*result DetachNetworkInterfaceResult, err error)
 	CreateFirewall(ctx context.Context, nicinput NetworkInterfaceParams) (*result InterfaceResult, err error)
 	CheckStatus(ctx context.Context, nicinput NetworkInterfaceParams) (*result InterfaceResult, err error)
+	CreateNetworkBridge(ctx context.Context, input BridgeConfigurationInput) (*result BridgeConfigurationOutput, err error)
 }
 
 type network struct {
@@ -27,9 +28,7 @@ func NewNetworkClient() Network {
 }
 
 // CreateFirewall creates a firewall
-func (n *network) CreateFirewall(ctx context.Context, nicinput NetworkInterfaceParams) (result InterfaceResult, err error) {
-	return result, err
-}
+
 
 // CreateNetworkInterface creates a new network interface
 func (n *network) CreateNetworkInterface(ctx context.Context, nicinput NetworkInterfaceParams) (result InterfaceResult, err error) {

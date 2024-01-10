@@ -20,64 +20,64 @@ type Volumes interface {
 }
 
 type volumes struct {
-	Tokens string
+	Tokens string `json:"tokens"`
 }
 
 type DiskConfigurationInput struct {
-	Name string
-	Size int
+	Name string `json:"name"`
+	Size int    `json:"size"`
 }
 
 type DiskConfigurationOutput struct {
-	Name   string
-	ID     string
-	Status string
-	Size   int
+	Name   string `json:"name"`
+	ID     string `json:"id"`
+	Status string `json:"status"`
+	Size   int    `json:"size"`
 }
 
 type DescribeDiskInput struct {
-	Name string
-	ID   string
+	Name string `json:"name"`
+	ID   string `json:"id"`
 }
 
 type DescribeDiskOutput struct {
-	Name      string
-	ID        string
-	Status    string
-	Used_By   string
-	Size      int
-	FreeSpace int
+	Name      string `json:"name"`
+	ID        string `json:"id"`
+	Status    string `json:"status"`
+	Used_By   string `json:"used_by"`
+	Size      int    `json:"size"`
+	FreeSpace int    `json:"free_space"`
 }
 
 type AttachDiskInput struct {
-	Name string
-	ID   string
+	Name string `json:"name"`
+	ID   string `json:"id"`
 }
 
 type AttachDiskOutput struct {
-	Name   string
-	ID     string
-	Status string
+	Name   string `json:"name"`
+	ID     string `json:"id"`
+	Status string `json:"status"`
 }
 
 type DetachDiskInput struct {
-	Name string
-	ID   string
+	Name string `json:"name"`
+	ID   string `json:"id"`
 }
 
 type DetachDiskOutput struct {
-	Name   string
-	ID     string
-	Status string
+	Name   string `json:"name"`
+	ID     string `json:"id"`
+	Status string `json:"status"`
 }
 
 type DeleteDiskInput struct {
-	Name string
-	ID   string
+	Name string `json:"name"`
+	ID   string `json:"id"`
 }
 
 type DeleteDiskOutput struct {
-	Name   string
-	ID     string
-	Status string
+	Name   string `json:"name"`
+	ID     string `json:"id"`
+	Status string `json:"status"`
 }

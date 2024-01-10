@@ -2,10 +2,8 @@ package vm
 
 import (
 	"context"
-	"fmt"
 	"log"
-
-	"github.com/horiodino/asper/bkend/hypervisor/qemu"
+	// "github.com/horiodino/asper/bkend/hypervisor/qemu"
 )
 
 // TODO add use valid  argument for all methods
@@ -49,19 +47,19 @@ type Instance interface {
 
 func (c *vm) CreateVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error) {
 
-	QEMU := qemu.InitializeQEMU()
-	xmlvalue, err := QEMU.Validate("vm")
+	// QEMU := qemu.InitializeQEMU()
+	_, err := validateInput(input)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	val, err := QEMU.Client.DomainDefineXML(xmlvalue)
-	if err != nil {
-		log.Fatal(err)
-	}
+	// val, err := QEMU.Client.DomainDefineXML(xmlvalue)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	val.Create()
-	fmt.Println(val.GetInfo())
+	// val.Create()
+	// fmt.Println(val.GetInfo())
 
 	return &InstanceConfigurationOutput{}, nil
 }
