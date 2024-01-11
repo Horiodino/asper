@@ -57,6 +57,10 @@ type DetachNetworkInterfaceResult struct {
 	Status string `json:"status"`
 }
 type BridgeConfigurationInput struct {
+	Name   string `json:"name"`
+	Bridge string `json:"bridge"`
+	IP     string `json:"ip"`
+	Mask   string `json:"mask"`
 }
 
 type BridgeConfigurationOutput struct {

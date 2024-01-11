@@ -2,10 +2,10 @@ package vm
 
 import (
 	"context"
-	"fmt"
 	"log"
 
-	"github.com/horiodino/asper/bkend/hypervisor/qemu"
+	"github.com/horiodino/asper/internal/logger"
+	// "github.com/horiodino/asper/bkend/hypervisor/qemu"
 )
 
 // TODO add use valid  argument for all methods
@@ -23,7 +23,7 @@ type Instance interface {
 	CreateVM(ctx context.Context, input InstanceConfigurationInput) (InstanceConfigurationOutput, error)
 	DeleteVM(ctx context.Context, input DescribeInstancesInput) (DescribeInstancesOutput, error)
 	InstanceState(context.Context, DescribeInstancesInput) (*DescribeInstancesOutput, error)
-	InstanceSSHKey(ctx context.Context, input DescribeSSHKeyInput) (*DescribeSSHKeyOutput, error)
+	// InstanceSSHKey(ctx context.Context, input DescribeSSHKeyInput) (*DescribeSSHKeyOutput, error)
 	InstanceNetworkInterface(ctx context.Context, input DescribeNetworkInterfaceInput) (*DescribeNetworkInterfaceOutput, error)
 	InstanceDiskConfiguration(ctx context.Context, input DescribeDiskConfigurationInput) (*DescribeDiskConfigurationOutput, error)
 	InstanceFirewallConfiguration(ctx context.Context, input DescribeFirewallConfigurationInput) (*DescribeFirewallConfigurationOutput, error)
@@ -41,7 +41,7 @@ type Instance interface {
 	RestoreVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
 	ConvertVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
 	DescribeInstances(ctx context.Context, input DescribeInstancesInput) (*DescribeInstancesOutput, error)
-	DescribeSSHKey(ctx context.Context, input DescribeSSHKeyInput) (*DescribeSSHKeyOutput, error)
+	// DescribeSSHKey(ctx context.Context, input DescribeSSHKeyInput) (*DescribeSSHKeyOutput, error)
 	DescribeNetworkInterface(ctx context.Context, input DescribeNetworkInterfaceInput) (*DescribeNetworkInterfaceOutput, error)
 	DescribeDiskConfiguration(ctx context.Context, input DescribeDiskConfigurationInput) (*DescribeDiskConfigurationOutput, error)
 	DescribeFirewallConfiguration(ctx context.Context, input DescribeFirewallConfigurationInput) (*DescribeFirewallConfigurationOutput, error)
@@ -49,19 +49,22 @@ type Instance interface {
 
 func (c *vm) CreateVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error) {
 
-	QEMU := qemu.InitializeQEMU()
-	xmlvalue, err := QEMU.Validate("vm")
+	// QEMU := qemu.InitializeQEMU()
+	logger := logger.NewLogger()
+
+	logger.LogDebug("this is an example of logger", input)
+	_, err := validateInput(input)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	val, err := QEMU.Client.DomainDefineXML(xmlvalue)
-	if err != nil {
-		log.Fatal(err)
-	}
+	// val, err := QEMU.Client.DomainDefineXML(xmlvalue)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	val.Create()
-	fmt.Println(val.GetInfo())
+	// val.Create()
+	// fmt.Println(val.GetInfo())
 
 	return &InstanceConfigurationOutput{}, nil
 }
@@ -70,9 +73,9 @@ func (c *vm) InstanceState(ctx context.Context, input DescribeInstancesInput) (*
 	return &DescribeInstancesOutput{}, nil
 }
 
-func (c *vm) InstanceSSHKey(ctx context.Context, input DescribeSSHKeyInput) (*DescribeSSHKeyOutput, error) {
-	return &DescribeSSHKeyOutput{}, nil
-}
+// func (c *vm) InstanceSSHKey(ctx context.Context, input DescribeSSHKeyInput) (*DescribeSSHKeyOutput, error) {
+// 	return &DescribeSSHKeyOutput{}, nil
+// }
 
 func (c *vm) InstanceNetworkInterface(ctx context.Context, input DescribeNetworkInterfaceInput) (*DescribeNetworkInterfaceOutput, error) {
 	return &DescribeNetworkInterfaceOutput{}, nil
