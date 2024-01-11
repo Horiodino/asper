@@ -3,8 +3,11 @@ package vm
 import (
 	"context"
 	"log"
+<<<<<<< HEAD
 
 	"github.com/horiodino/asper/internal/logger"
+=======
+>>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c
 	// "github.com/horiodino/asper/bkend/hypervisor/qemu"
 )
 
@@ -50,9 +53,12 @@ type Instance interface {
 func (c *vm) CreateVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error) {
 
 	// QEMU := qemu.InitializeQEMU()
+<<<<<<< HEAD
 	logger := logger.NewLogger()
 
 	logger.LogDebug("this is an example of logger", input)
+=======
+>>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c
 	_, err := validateInput(input)
 	if err != nil {
 		log.Fatal(err)

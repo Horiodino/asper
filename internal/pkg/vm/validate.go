@@ -5,6 +5,10 @@ import (
 	"reflect"
 
 	"github.com/horiodino/asper/internal/pkg/ssh"
+<<<<<<< HEAD
+=======
+	"github.com/horiodino/asper/internal/utils"
+>>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c
 )
 
 // the validateInput method validates the input for all the methods in the vm package
@@ -62,10 +66,17 @@ func validateInput(input interface{}) (string, error) {
 			return "", fmt.Errorf("DiskConfiguration.Size field is empty")
 		}
 
+<<<<<<< HEAD
 		// err := utils.ValidateName(paramerter.Name, "vm")
 		// if err != nil {
 		// 	return "", err
 		// }
+=======
+		err := utils.ValidateName(paramerter.Name, "vm")
+		if err != nil {
+			return "", err
+		}
+>>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c
 
 		resp, err := fetch_system_memory_info(&paramerter.Memory)
 		if err != nil {
@@ -94,10 +105,17 @@ func validateInput(input interface{}) (string, error) {
 		if paramerter.Name == "" {
 			return "", fmt.Errorf("Name field is empty")
 		}
+<<<<<<< HEAD
 		// err := utils.ValidateName(paramerter.Name, "vm")
 		// if err != nil {
 		// 	return "", err
 		// }
+=======
+		err := utils.ValidateName(paramerter.Name, "vm")
+		if err != nil {
+			return "", err
+		}
+>>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c
 
 		condition := paramerter.Filter.MaxResults
 		if condition == 0 && paramerter.Filter.MaxResults == 0 {

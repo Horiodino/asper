@@ -1,5 +1,6 @@
 package network
 
+<<<<<<< HEAD
 import (
 	"context"
 	"fmt"
@@ -76,3 +77,10 @@ func validateInput(input interface{}) (string, error) {
 
 	return nil, nil
 }
+=======
+import "context"
+
+func (n *network) CreateNetworkBridge(ctx context.Context, nicinput BridgeConfigurationInput) (result BridgeConfigurationOutput, err error) {
+	return result, err
+}
+>>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c

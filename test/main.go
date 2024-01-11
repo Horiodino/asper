@@ -4,7 +4,10 @@ import (
 	"context"
 	"log"
 
+<<<<<<< HEAD
 	"github.com/horiodino/asper/internal/pkg/ssh"
+=======
+>>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c
 	"github.com/horiodino/asper/internal/pkg/vm"
 	// "github.com/horiodino/asper/internal/pkg/network"
 )
@@ -18,7 +21,11 @@ func main() {
 		Memory: 1024,
 		VCPU:   1,
 		Lock:   false,
+<<<<<<< HEAD
 		SSHConfiguration: ssh.SSHConfigurationInput{
+=======
+		SSHConfiguration: vm.SSHConfigurationInput{
+>>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c
 			Keyname: "asper",
 		},
 		NetworkInterface: vm.NetworkInterfaceInput{
