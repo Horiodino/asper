@@ -1,9 +1,7 @@
 package network
 
-import "github.com/horiodino/asper/internal/logger"
-
 type DescribeFirewallConfigurationInput struct {
-	InstanceID logger.Asperstring
+	InstanceID string
 }
 
 type DescribeFirewallConfigurationOutput struct {
@@ -64,4 +62,21 @@ type BridgeConfigurationInput struct {
 }
 
 type BridgeConfigurationOutput struct {
+}
+
+type FirewallConfigurationInput struct {
+	InstanceID         string                        `json:"instance_id"`
+	ConfigurationInput *[]FirewallConfigurationInput `json:"configuration_input"`
+}
+
+type FirewallConfiguration struct {
+	Protocol string `json:"protocol"`
+	Port     string `json:"port"`
+	SourceIP string `json:"source_ip"`
+	DestIP   string `json:"dest_ip"`
+}
+
+type FirewallConfigurationOutput struct {
+	InstanceID string                   `json:"instance_id"`
+	Rules      *[]FirewallConfiguration `json:"rules"`
 }

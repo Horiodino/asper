@@ -17,7 +17,12 @@ const (
 )
 
 type Logger interface {
-	// ... (rest remains the same)
+	LogError(msg string, option interface{}) error
+	LogInvalid(msg string, option interface{}) error
+	LogInfo(msg string, option interface{}) error
+	LogDebug(msg string, option interface{}) error
+	LogWarn(msg string, option interface{}) error
+	LogFatal(msg string, option interface{}) error
 }
 
 type LoggerImpl struct {
@@ -41,6 +46,13 @@ func (l *LoggerImpl) LogInvalid(msg string, option interface{}) error {
 
 func (l *LoggerImpl) LogInfo(msg string, option interface{}) error {
 	color.Blue(l.now.Format("2006-01-02 15:04:05") + " " + LevelInfo + " " + msg)
+	if reflect.TypeOf(option).Kind() == reflect.Struct {
+		val := reflect.ValueOf(option)
+		for i := 0; i < val.NumField(); i++ {
+			color.Blue(val.Type().Field(i).Name + ":" + fmt.Sprint(val.Field(i).Interface()))
+		}
+	}
+
 	return nil
 }
 

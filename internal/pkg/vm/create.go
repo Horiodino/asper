@@ -2,12 +2,8 @@ package vm
 
 import (
 	"context"
-	"log"
-<<<<<<< HEAD
 
 	"github.com/horiodino/asper/internal/logger"
-=======
->>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c
 	// "github.com/horiodino/asper/bkend/hypervisor/qemu"
 )
 
@@ -21,78 +17,20 @@ func InitializeFromConfig() *vm {
 	return &vm{}
 }
 
-// Instance interface groups together methods for creating various components of a VM
-type Instance interface {
-	CreateVM(ctx context.Context, input InstanceConfigurationInput) (InstanceConfigurationOutput, error)
-	DeleteVM(ctx context.Context, input DescribeInstancesInput) (DescribeInstancesOutput, error)
-	InstanceState(context.Context, DescribeInstancesInput) (*DescribeInstancesOutput, error)
-	// InstanceSSHKey(ctx context.Context, input DescribeSSHKeyInput) (*DescribeSSHKeyOutput, error)
-	InstanceNetworkInterface(ctx context.Context, input DescribeNetworkInterfaceInput) (*DescribeNetworkInterfaceOutput, error)
-	InstanceDiskConfiguration(ctx context.Context, input DescribeDiskConfigurationInput) (*DescribeDiskConfigurationOutput, error)
-	InstanceFirewallConfiguration(ctx context.Context, input DescribeFirewallConfigurationInput) (*DescribeFirewallConfigurationOutput, error)
-	ModifyVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
-	MoveVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
-	ResizeVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
-	RebootVM(ctx context.Context, input DescribeInstancesInput) (*DescribeInstancesOutput, error)
-	StopVM(ctx context.Context, input DescribeInstancesInput) (*DescribeInstancesOutput, error)
-	StartVM(ctx context.Context, input DescribeInstancesInput) (*DescribeInstancesOutput, error)
-	RebuildVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
-	ReinstallVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
-	ResetVM(ctx context.Context, input DescribeInstancesInput) (*DescribeInstancesOutput, error)
-	CloneVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
-	BackupVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
-	RestoreVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
-	ConvertVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error)
-	DescribeInstances(ctx context.Context, input DescribeInstancesInput) (*DescribeInstancesOutput, error)
-	// DescribeSSHKey(ctx context.Context, input DescribeSSHKeyInput) (*DescribeSSHKeyOutput, error)
-	DescribeNetworkInterface(ctx context.Context, input DescribeNetworkInterfaceInput) (*DescribeNetworkInterfaceOutput, error)
-	DescribeDiskConfiguration(ctx context.Context, input DescribeDiskConfigurationInput) (*DescribeDiskConfigurationOutput, error)
-	DescribeFirewallConfiguration(ctx context.Context, input DescribeFirewallConfigurationInput) (*DescribeFirewallConfigurationOutput, error)
-}
-
 func (c *vm) CreateVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error) {
 
-	// QEMU := qemu.InitializeQEMU()
-<<<<<<< HEAD
-	logger := logger.NewLogger()
-
-	logger.LogDebug("this is an example of logger", input)
-=======
->>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c
-	_, err := validateInput(input)
+	response, err := validateInput(input)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-
-	// val, err := QEMU.Client.DomainDefineXML(xmlvalue)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// val.Create()
-	// fmt.Println(val.GetInfo())
+	logger := logger.NewLogger()
+	logger.LogInfo(response, input)
 
 	return &InstanceConfigurationOutput{}, nil
 }
 
 func (c *vm) InstanceState(ctx context.Context, input DescribeInstancesInput) (*DescribeInstancesOutput, error) {
 	return &DescribeInstancesOutput{}, nil
-}
-
-// func (c *vm) InstanceSSHKey(ctx context.Context, input DescribeSSHKeyInput) (*DescribeSSHKeyOutput, error) {
-// 	return &DescribeSSHKeyOutput{}, nil
-// }
-
-func (c *vm) InstanceNetworkInterface(ctx context.Context, input DescribeNetworkInterfaceInput) (*DescribeNetworkInterfaceOutput, error) {
-	return &DescribeNetworkInterfaceOutput{}, nil
-}
-
-func (c *vm) InstanceDiskConfiguration(ctx context.Context, input DescribeDiskConfigurationInput) (*DescribeDiskConfigurationOutput, error) {
-	return &DescribeDiskConfigurationOutput{}, nil
-}
-
-func (c *vm) InstanceFirewallConfiguration(ctx context.Context, input DescribeFirewallConfigurationInput) (*DescribeFirewallConfigurationOutput, error) {
-	return &DescribeFirewallConfigurationOutput{}, nil
 }
 
 func (c *vm) ModifyVM(ctx context.Context, input InstanceConfigurationInput) (*InstanceConfigurationOutput, error) {

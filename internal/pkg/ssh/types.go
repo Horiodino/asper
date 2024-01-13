@@ -13,19 +13,19 @@ type Ssh interface {
 }
 
 type SSHConfigurationInput struct {
-	Keyname logger.Asperstring `json:"keyname"`
+	Keyname string `json:"keyname"`
 }
 type SSHKeyOutput struct {
-	Keyname logger.Asperstring `json:"keyname"`
+	Keyname string `json:"keyname"`
 }
 type DescribeSSHKeyInput struct {
-	Name logger.Asperstring `json:"name"`
+	Name string `json:"name"`
 	// only any one field is valid
-	InstanceID logger.Asperstring `json:"instance_id"`
+	InstanceID string `json:"instance_id"`
 }
 
 type DescribeSSHKeyOutput struct {
-	Keyname logger.Asperstring   `json:"keyname"`
+	Keyname string               `json:"keyname"`
 	UsedBy  []logger.Asperstring `json:"used_by"`
 }
 

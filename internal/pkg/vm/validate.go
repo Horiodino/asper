@@ -3,12 +3,6 @@ package vm
 import (
 	"fmt"
 	"reflect"
-
-	"github.com/horiodino/asper/internal/pkg/ssh"
-<<<<<<< HEAD
-=======
-	"github.com/horiodino/asper/internal/utils"
->>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c
 )
 
 // the validateInput method validates the input for all the methods in the vm package
@@ -38,134 +32,103 @@ func validateInput(input interface{}) (string, error) {
 			NetworkInterface:  input.(InstanceConfigurationInput).NetworkInterface,
 			DiskConfiguration: input.(InstanceConfigurationInput).DiskConfiguration,
 		}
-		if paramerter.Name == "" {
-			return "", fmt.Errorf("Name field is empty")
-		}
-		if paramerter.OS == "" {
-			return "", fmt.Errorf("OS field is empty")
-		}
-		if paramerter.Memory == 0 {
-			return "", fmt.Errorf("Memory field is empty")
-		}
-		if paramerter.VCPU == 0 {
-			return "", fmt.Errorf("VCPU field is empty")
-		}
-		if paramerter.SSHConfiguration.Keyname == "" {
-			return "", fmt.Errorf("SSHConfiguration.Keyname field is empty")
-		}
-		if paramerter.NetworkInterface.Name == "" {
-			return "", fmt.Errorf("NetworkInterface.Name field is empty")
-		}
-		if paramerter.NetworkInterface.Bridge == "" {
-			return "", fmt.Errorf("NetworkInterface.Bridge field is empty")
-		}
-		if paramerter.DiskConfiguration.Name == "" {
-			return "", fmt.Errorf("DiskConfiguration.Name field is empty")
-		}
-		if paramerter.DiskConfiguration.Size == 0 {
-			return "", fmt.Errorf("DiskConfiguration.Size field is empty")
-		}
-
-<<<<<<< HEAD
-		// err := utils.ValidateName(paramerter.Name, "vm")
-		// if err != nil {
-		// 	return "", err
-		// }
-=======
-		err := utils.ValidateName(paramerter.Name, "vm")
+		isempty, err := paramerter.IsEmpty()
 		if err != nil {
 			return "", err
 		}
->>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c
-
-		resp, err := fetch_system_memory_info(&paramerter.Memory)
-		if err != nil {
-			return "", err
+		if !isempty {
+			return "", fmt.Errorf("missing required parameter")
 		}
-		if resp == false {
-			return "", fmt.Errorf("Insufficient memory")
-		}
-		resp, err = fetch_system_cpu_info(&paramerter.VCPU)
-		if err != nil {
-			return "", err
-		}
-		if resp == false {
-			return "", fmt.Errorf("Insufficient CPU")
-		}
-		resp, err = fetch_system_disk_info(&paramerter.DiskConfiguration.Size)
-		if err != nil {
-			return "", err
-		}
+		return "valid", nil
 
 	case "vm.DescribeInstancesInput":
 		paramerter := &DescribeInstancesInput{
 			Name:   input.(DescribeInstancesInput).Name,
 			Filter: input.(DescribeInstancesInput).Filter,
 		}
-		if paramerter.Name == "" {
-			return "", fmt.Errorf("Name field is empty")
-		}
-<<<<<<< HEAD
-		// err := utils.ValidateName(paramerter.Name, "vm")
-		// if err != nil {
-		// 	return "", err
-		// }
-=======
-		err := utils.ValidateName(paramerter.Name, "vm")
+		isempty, err := paramerter.IsEmpty()
 		if err != nil {
 			return "", err
 		}
->>>>>>> 41416dd19ca273ab72348318ae3e611423cdb77c
-
-		condition := paramerter.Filter.MaxResults
-		if condition == 0 && paramerter.Filter.MaxResults == 0 {
-			paramerter.Filter.MaxResults = 10
-			paramerter.Filter.State = "running"
+		if !isempty {
+			return "", fmt.Errorf("missing required parameter")
 		}
 
-	case "vm.DescribeSSHKeyInput":
-		paramerter := &ssh.DescribeSSHKeyInput{
-			Name:       input.(ssh.DescribeSSHKeyInput).Name,
-			InstanceID: input.(ssh.DescribeSSHKeyInput).InstanceID,
-		}
-		if paramerter.Name == "" && paramerter.InstanceID == "" {
-			return "", fmt.Errorf("Name and InstanceID field is empty")
-		}
-	case "vm.DescribeNetworkInterfaceInput":
-		paramerter := &DescribeNetworkInterfaceInput{
-			InstanceID: input.(DescribeNetworkInterfaceInput).InstanceID,
-		}
-		if paramerter.InstanceID == "" {
-			return "", fmt.Errorf("InstanceID field is empty")
-		}
-	case "vm.DescribeDiskConfigurationInput":
-		paramerter := &DescribeDiskConfigurationInput{
-			InstanceID: input.(DescribeDiskConfigurationInput).InstanceID,
-		}
-		if paramerter.InstanceID == "" {
-			return "", fmt.Errorf("InstanceID field is empty")
-		}
-	case "vm.DescribeFirewallConfigurationInput":
-		paramerter := &DescribeFirewallConfigurationInput{
-			InstanceID: input.(DescribeFirewallConfigurationInput).InstanceID,
-		}
-		if paramerter.InstanceID == "" {
-			return "", fmt.Errorf("InstanceID field is empty")
-		}
-	default:
-		return "", fmt.Errorf("Invalid input type")
+		return "valid", nil
 	}
-	return "", nil
+	return "valid", nil
 }
 
-// TODO add logic to fetch the system info
-func fetch_system_memory_info(*uint) (bool, error) {
-	return false, nil
-}
-func fetch_system_cpu_info(*uint) (bool, error) {
-	return false, nil
+func (i *InstanceConfigurationInput) IsEmpty() (bool, error) {
+	paramerter := []string{i.Name, i.OS, string(rune(i.Memory)), string(rune(i.VCPU))}
+	for _, value := range paramerter {
+		if value == "" {
+			return false, fmt.Errorf("missing required parameter: %s", reflect.TypeOf(value))
+		}
+	}
+
+	if i.SSHConfiguration.Keyname == "" {
+		return false, fmt.Errorf("missing required parameter: %s", i.SSHConfiguration.Keyname)
+	} else {
+		// Set it true in DB
+		i.SSHConfiguration.Keyname = "true"
+	}
+
+	paramerter = []string{i.NetworkInterface.IP, i.NetworkInterface.Name, i.NetworkInterface.Subnet}
+	for _, value := range paramerter {
+		if value == "" {
+			return false, fmt.Errorf("missing required parameter: %s", value)
+		}
+	}
+
+	paramerter = []string{i.DiskConfiguration.Name, string(rune(i.DiskConfiguration.Size))}
+	for _, value := range paramerter {
+		if value == "" {
+			return false, fmt.Errorf("missing required parameter: %s", value)
+		}
+	}
+
+	return true, nil
 }
 
-func fetch_system_disk_info(*uint) (bool, error) {
-	return false, nil
+func (i *DescribeInstancesInput) IsEmpty() (bool, error) {
+	paramerter := []string{i.Name, i.Filter.State}
+	for _, value := range paramerter {
+		if value == "" {
+			return false, fmt.Errorf("missing required parameter: %s", value)
+		}
+	}
+
+	if i.Filter.State == "" {
+		return false, fmt.Errorf("missing required parameter: %s", i.Filter.State)
+	}
+	if i.Filter.MaxResults == 0 {
+		return false, fmt.Errorf("missing required parameter: %d", i.Filter.MaxResults)
+	}
+	return true, nil
 }
+
+//  a global function to tell if any of the input is empty
+// it will take any interface as input and return error if any of the input is empty
+
+// first we marshal the input to json and in json , we see coressponding to the empty input
+// if it empty like OS : "" then we do something see the nil
+// ok what is nill? we seee coresponing value , ok its OS
+// sos we print the error that OS is empty
+
+// func isEmpty(input InstanceConfigurationInput) error {
+// 	// marshal the input to json
+// 	jsondata, err := json.Marshal(input)
+// 	if err != nil {
+// 		return err
+// 	}
+
+// 	// unmarshal the json to map
+// 	var data map[string]interface{}
+// 	err = json.Unmarshal(jsondata, &data)
+// 	if value == nil {
+// 		return fmt.Errorf("missing required parameter: %s", key)
+// 	}
+
+// 	return nil
+// }
