@@ -51,3 +51,14 @@ type ResultMetadata struct {
 	UserID   string `json:"user_id"`
 	Instance string `json:"instance"`
 }
+
+type TerminationResult struct {
+	InstanceState []InstanceState `json:"instance_state"`
+}
+
+type InstanceState struct {
+	InstanceID string `json:"instance_id"`
+	State      string `json:"state"`
+	Disk       string `json:"disk"`
+	Network    string `json:"network"`
+}

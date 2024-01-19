@@ -1,12 +1,18 @@
 package vm
 
 import (
-	"fmt"
-
 	"github.com/horiodino/asper/internal/logger"
 )
 
-func (c *vm) DeleteVM(instanceid logger.Asperstring) *vm {
-	fmt.Println("Running DeleteVM")
-	return c
+// takes slice
+func (c *vm) DeleteVM(instanceids []string) (TerminationResult, error) {
+
+	response, err := validateInput(instanceids)
+	if err != nil {
+		return TerminationResult{}, err
+	}
+	logger := logger.NewLogger()
+	logger.LogInfo(response, input)
+
+	return TerminationResult{}, nil
 }
